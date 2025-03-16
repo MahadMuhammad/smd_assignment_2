@@ -1,6 +1,7 @@
 package com.example.cvbuilder;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -74,8 +75,9 @@ public class FinalActivity extends AppCompatActivity {
 
     private void populateCVData() {
         // Set profile picture
-        if (cvData.getProfilePicturePath() != null && !cvData.getProfilePicturePath().isEmpty()) {
-            profileImageView.setImageURI(Uri.parse(cvData.getProfilePicturePath()));
+        Bitmap profileImage = cvData.getProfileImageBitMap();
+        if (profileImage != null) {
+            profileImageView.setImageBitmap(profileImage);
         }
 
         // Set name

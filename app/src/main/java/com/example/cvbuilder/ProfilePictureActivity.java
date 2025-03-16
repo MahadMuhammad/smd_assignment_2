@@ -1,6 +1,7 @@
 package com.example.cvbuilder;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -19,7 +20,10 @@ public class ProfilePictureActivity extends AppCompatActivity {
 
     private static final int PICK_IMAGE_REQUEST = 1;
     private ImageView profileImageView;
-    private String selectedImagePath;
+    private Uri imgUri;
+
+    Intent resultIntent = new Intent();
+    private CVDataModel cvData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +41,16 @@ public class ProfilePictureActivity extends AppCompatActivity {
         Button btnCancel = findViewById(R.id.btnCancel);
 
         // Check if we have a current image path
-        if (getIntent().hasExtra("current_image_path")) {
-            selectedImagePath = getIntent().getStringExtra("current_image_path");
-            profileImageView.setImageURI(Uri.parse(selectedImagePath));
+
+        if (getIntent().hasExtra("cv_data")) {
+            cvData = (CVDataModel) getIntent().getSerializableExtra("cv_data");
+            Bitmap savedImage = cvData.getProfileImageBitMap();
+            if (savedImage != null) {
+                profileImageView.setImageBitmap(savedImage);
+                imgUri = cvData.getImageUri();
+            }
+        } else {
+            cvData = new CVDataModel();
         }
 
         btnPickImage.setOnClickListener(v -> {
@@ -47,9 +58,9 @@ public class ProfilePictureActivity extends AppCompatActivity {
         });
 
         btnSave.setOnClickListener(v -> {
-            if (selectedImagePath != null) {
-                Intent resultIntent = new Intent();
-                resultIntent.putExtra("image_path", selectedImagePath);
+            if (imgUri != null) {
+                cvData.setImageUri(imgUri);
+                resultIntent.putExtra("cv_data", cvData);
                 setResult(RESULT_OK, resultIntent);
                 finish();
             } else {
@@ -73,9 +84,19 @@ public class ProfilePictureActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null) {
-            Uri selectedImageUri = data.getData();
-            profileImageView.setImageURI(selectedImageUri);
-            selectedImagePath = selectedImageUri.toString();
+            imgUri = data.getData();
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imgUri);
+                profileImageView.setImageBitmap(bitmap);
+                cvData.setProfileImage(bitmap);
+                cvData.setImageUri(imgUri);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+//            imgUri = data.getData();
+//            profileImageView.setImageURI(imgUri);
+//            Toast.makeText(this, "Image selected" + imgUri.toString(), Toast.LENGTH_SHORT).show();
+//            cvData.setImageUri(imgUri);
         }
     }
 }

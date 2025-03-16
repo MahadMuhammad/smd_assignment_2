@@ -1,11 +1,17 @@
 package com.example.cvbuilder;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.util.Base64;
+
+import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class CVDataModel implements Serializable {
-        private String profilePicturePath;
         private String name;
         private String email;
         private String phone;
@@ -25,6 +31,46 @@ public class CVDataModel implements Serializable {
         // References
         private List<Reference> references;
 
+        // Store URI as String to make it serializable
+        private String imageUriString;
+
+    public void setProfileImage(Bitmap bitmap) {
+        Optional.ofNullable(bitmap).ifPresent(bmp -> {
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            bmp.compress(Bitmap.CompressFormat.JPEG, 80, byteArrayOutputStream);
+            byte[] byteArray = byteArrayOutputStream.toByteArray();
+            profileImageBase64 = Base64.encodeToString(byteArray, Base64.NO_WRAP);
+        });
+    }
+
+    public String getProfileImageBase64() {
+        return Optional.ofNullable(profileImageBase64).orElse("");
+    }
+
+    public Bitmap getProfileImageBitMap() {
+        return Optional.ofNullable(profileImageBase64)
+                .filter(s -> !s.isEmpty())
+                .map(s -> Base64.decode(s, Base64.NO_WRAP))
+                .map(bytes -> BitmapFactory.decodeByteArray(bytes, 0, bytes.length))
+                .orElse(null);
+    }
+
+    private String profileImageBase64;
+
+        public Uri getImageUri() {
+            return imageUriString != null ? Uri.parse(imageUriString) : null;
+        }
+
+        public void setImageUri(Uri imageUri) {
+            this.imageUriString = imageUri != null ? imageUri.toString() : null;
+        }
+
+        public void setImageUriString(String imageUriString) {
+            this.imageUriString = imageUriString;
+        }
+
+
+
         CVDataModel() {
             this.educationList = new ArrayList<>();
             this.experienceList = new ArrayList<>();
@@ -32,11 +78,11 @@ public class CVDataModel implements Serializable {
             this.references = new ArrayList<>();
         }
 
-    public List<String> getCertificationsList() {
+        public List<String> getCertificationsList() {
             return certifications;
-    }
+        }
 
-    // Inner classes for complex data
+        // Inner classes for complex data
         public static class Education implements Serializable {
             private String degree;
             private String institution;
@@ -114,9 +160,6 @@ public class CVDataModel implements Serializable {
         }
 
         // Getters and setters
-        public String getProfilePicturePath() { return profilePicturePath; }
-        public void setProfilePicturePath(String profilePicturePath) { this.profilePicturePath = profilePicturePath; }
-
         public String getName() { return name; }
         public void setName(String name) { this.name = name; }
 

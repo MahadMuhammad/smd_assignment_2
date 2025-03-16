@@ -57,10 +57,11 @@ public class MainActivity extends AppCompatActivity {
 
         if (id == R.id.btnProfilePicture) {
             Intent intent = new Intent(this, ProfilePictureActivity.class);
-            if (cvData.getProfilePicturePath() != null) {
-                intent.putExtra("current_image_path", cvData.getProfilePicturePath());
-                Toast.makeText(this, "Current image path: " + cvData.getProfilePicturePath(), Toast.LENGTH_SHORT).show();
-            }
+            intent.putExtra("cv_data", cvData);
+//            if (cvData.getProfilePicturePath() != null) {
+//                intent.putExtra("current_image_path", cvData.getProfilePicturePath());
+//                Toast.makeText(this, "Current image path: " + cvData.getProfilePicturePath(), Toast.LENGTH_SHORT).show();
+//            }
             startActivityForResult(intent, REQUEST_CODE_PROFILE_PIC);
         }
         else if (id == R.id.btnPersonalDetails) {
@@ -97,16 +98,16 @@ public class MainActivity extends AppCompatActivity {
             if (isProfileComplete()) {
                 Intent intent = new Intent(this, FinalActivity.class);
                 intent.putExtra("cv_data", cvData);
-                intent.putExtra("name", cvData.getName());
-                intent.putExtra("email", cvData.getEmail());
-                intent.putExtra("phone", cvData.getPhone());
-                intent.putExtra("address", cvData.getAddress());
-                intent.putExtra("profile_picture", cvData.getProfilePicturePath());
-                intent.putExtra("summary", cvData.getSummary());
-                intent.putExtra("education_list", cvData.getEducationList().toString());
-                intent.putExtra("experience_list", cvData.getExperienceList().toString());
-                intent.putExtra("certifications_list", cvData.getCertificationsList().toString());
-                intent.putExtra("references_list", cvData.getReferences().toString());
+//                intent.putExtra("name", cvData.getName());
+//                intent.putExtra("email", cvData.getEmail());
+//                intent.putExtra("phone", cvData.getPhone());
+//                intent.putExtra("address", cvData.getAddress());
+//                intent.putExtra("profile_picture", cvData.getImageUri());
+//                intent.putExtra("summary", cvData.getSummary());
+//                intent.putExtra("education_list", cvData.getEducationList().toString());
+//                intent.putExtra("experience_list", cvData.getExperienceList().toString());
+//                intent.putExtra("certifications_list", cvData.getCertificationsList().toString());
+//                intent.putExtra("references_list", cvData.getReferences().toString());
                 startActivity(intent);
             } else {
                 Toast.makeText(this, "Please complete your profile before preview", Toast.LENGTH_SHORT).show();
@@ -121,10 +122,8 @@ public class MainActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK && data != null) {
             switch (requestCode) {
                 case REQUEST_CODE_PROFILE_PIC:
-                    cvData.setProfilePicturePath(data.getStringExtra("image_path"));
-                    // Debug log
-                    Log.d("Profile Picture Path", cvData.getProfilePicturePath());
-                    break;
+//                    cvData.setImageUriString(data.getStringExtra("cv_data"));
+//                    break;
                 case REQUEST_CODE_PERSONAL_DETAILS:
 
                 case REQUEST_CODE_SUMMARY:
@@ -136,10 +135,8 @@ public class MainActivity extends AppCompatActivity {
                     break;
             }
         }
-    }
+        Toast.makeText(this, "Profile updated" + cvData.getImageUri().toString() , Toast.LENGTH_SHORT).show();
 
-    private void updateProfileImage() {
-        // This method isn't needed as we don't have a profileImageView in the layout
     }
 
     private boolean isProfileComplete() {
