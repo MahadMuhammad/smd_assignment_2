@@ -16,6 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/degree_qualification"
+            android:textColor="@color/black"
             android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -28,6 +29,7 @@
             android:id="@+id/editTextInstitution"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/black"
             android:hint="Institution/University"
             android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -42,6 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Year of Completion"
+            android:textColor="@color/black"
             android:inputType="number" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -54,6 +57,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/grade_cgpa_optional"
+            android:textColor="@color/black"
             android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
 </LinearLayout>

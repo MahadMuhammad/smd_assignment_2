@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
             }
         }
-        Toast.makeText(this, "Profile updated" + cvData.getImageUri().toString() , Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "Profile updated" + cvData.getImageUri().toString() , Toast.LENGTH_SHORT).show();
 
     }
 

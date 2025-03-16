@@ -35,6 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:hint="@string/enter_your_professional_summary"
+            android:textColor="@color/black"
             android:inputType="textMultiLine"
             android:gravity="top|start" />
     </com.google.android.material.textfield.TextInputLayout>
