@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingTop="8dp"
+    android:background="@color/background"
+    android:paddingBottom="8dp">
+
+    <TextView
+        android:id="@+id/textViewDegree"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Bachelor of Computer Science"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textViewInstitution"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="National University of Computer and Emerging Sciences"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/textViewYear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="2025"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/textViewGrade"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Grade: 2.6 GPA"
+        android:textSize="14sp"
+        android:textStyle="italic" />
+
+</LinearLayout>

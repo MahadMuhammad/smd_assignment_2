@@ -13,7 +13,31 @@
         android:theme="@style/Theme.CVBuilder"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".FinalActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ReferencesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CertificationsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ExperienceActivity"
+            android:exported="false" />
+        <activity
+            android:name=".EducationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SummaryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PersonalDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ProfilePictureActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,6 +45,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".MainActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
