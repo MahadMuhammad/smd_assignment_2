@@ -3,8 +3,8 @@ package com.example.cvbuilder;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -24,7 +24,6 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_CERTIFICATIONS = 1006;
     private static final int REQUEST_CODE_REFERENCES = 1007;
 
-    private ImageView profileImageView;
     private CVDataModel cvData;
 
     @Override
@@ -38,22 +37,21 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
         // Initialize CVDataModel
         cvData = new CVDataModel();
 
-
         // Set click listeners for all buttons
-      findViewById(R.id.btnProfilePicture).setOnClickListener(this::onClick);
-              findViewById(R.id.btnPersonalDetails).setOnClickListener(this::onClick);
-              findViewById(R.id.btnSummary).setOnClickListener(this::onClick);
-              findViewById(R.id.btnEducation).setOnClickListener(this::onClick);
-              findViewById(R.id.btnExperience).setOnClickListener(this::onClick);
-              findViewById(R.id.btnCertifications).setOnClickListener(this::onClick);
-              findViewById(R.id.btnReferences).setOnClickListener(this::onClick);
-              findViewById(R.id.btnPreview).setOnClickListener(this::onClick);
+        findViewById(R.id.btnProfilePicture).setOnClickListener(this::onClick);
+        findViewById(R.id.btnPersonalDetails).setOnClickListener(this::onClick);
+        findViewById(R.id.btnSummary).setOnClickListener(this::onClick);
+        findViewById(R.id.btnEducation).setOnClickListener(this::onClick);
+        findViewById(R.id.btnExperience).setOnClickListener(this::onClick);
+        findViewById(R.id.btnCertifications).setOnClickListener(this::onClick);
+        findViewById(R.id.btnReferences).setOnClickListener(this::onClick);
+        findViewById(R.id.btnPreview).setOnClickListener(this::onClick);
     }
 
-//    @Override
     public void onClick(View view) {
         int id = view.getId();
 
@@ -61,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, ProfilePictureActivity.class);
             if (cvData.getProfilePicturePath() != null) {
                 intent.putExtra("current_image_path", cvData.getProfilePicturePath());
+                Toast.makeText(this, "Current image path: " + cvData.getProfilePicturePath(), Toast.LENGTH_SHORT).show();
             }
             startActivityForResult(intent, REQUEST_CODE_PROFILE_PIC);
         }
@@ -95,9 +94,19 @@ public class MainActivity extends AppCompatActivity {
             startActivityForResult(intent, REQUEST_CODE_REFERENCES);
         }
         else if (id == R.id.btnPreview) {
-            if (!isProfileComplete()) {
+            if (isProfileComplete()) {
                 Intent intent = new Intent(this, FinalActivity.class);
                 intent.putExtra("cv_data", cvData);
+                intent.putExtra("name", cvData.getName());
+                intent.putExtra("email", cvData.getEmail());
+                intent.putExtra("phone", cvData.getPhone());
+                intent.putExtra("address", cvData.getAddress());
+                intent.putExtra("profile_picture", cvData.getProfilePicturePath());
+                intent.putExtra("summary", cvData.getSummary());
+                intent.putExtra("education_list", cvData.getEducationList().toString());
+                intent.putExtra("experience_list", cvData.getExperienceList().toString());
+                intent.putExtra("certifications_list", cvData.getCertificationsList().toString());
+                intent.putExtra("references_list", cvData.getReferences().toString());
                 startActivity(intent);
             } else {
                 Toast.makeText(this, "Please complete your profile before preview", Toast.LENGTH_SHORT).show();
@@ -113,9 +122,11 @@ public class MainActivity extends AppCompatActivity {
             switch (requestCode) {
                 case REQUEST_CODE_PROFILE_PIC:
                     cvData.setProfilePicturePath(data.getStringExtra("image_path"));
-                    updateProfileImage();
+                    // Debug log
+                    Log.d("Profile Picture Path", cvData.getProfilePicturePath());
                     break;
                 case REQUEST_CODE_PERSONAL_DETAILS:
+
                 case REQUEST_CODE_SUMMARY:
                 case REQUEST_CODE_EDUCATION:
                 case REQUEST_CODE_EXPERIENCE:
@@ -128,17 +139,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateProfileImage() {
-        if (cvData.getProfilePicturePath() != null && !cvData.getProfilePicturePath().isEmpty()) {
-            profileImageView.setImageURI(Uri.parse(cvData.getProfilePicturePath()));
-        }
+        // This method isn't needed as we don't have a profileImageView in the layout
     }
 
     private boolean isProfileComplete() {
+        return true;
         // Basic validation to check if essential info is provided
-        return cvData.getName() != null && !cvData.getName().isEmpty() &&
-                cvData.getEmail() != null && !cvData.getEmail().isEmpty() &&
-                cvData.getProfilePicturePath() != null && !cvData.getProfilePicturePath().isEmpty() &&
-                cvData.getSummary() != null && !cvData.getSummary().isEmpty() &&
-                !cvData.getEducationList().isEmpty();
+//        return cvData.getName() != null && !cvData.getName().isEmpty() &&
+//                cvData.getEmail() != null && !cvData.getEmail().isEmpty() &&
+//                cvData.getProfilePicturePath() != null && !cvData.getProfilePicturePath().isEmpty() &&
+//                cvData.getSummary() != null && !cvData.getSummary().isEmpty() &&
+//                !cvData.getEducationList().isEmpty();
     }
 }

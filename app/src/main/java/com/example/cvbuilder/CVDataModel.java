@@ -25,14 +25,18 @@ public class CVDataModel implements Serializable {
         // References
         private List<Reference> references;
 
-        public void CVDataModel() {
+        CVDataModel() {
             this.educationList = new ArrayList<>();
             this.experienceList = new ArrayList<>();
             this.certifications = new ArrayList<>();
             this.references = new ArrayList<>();
         }
 
-        // Inner classes for complex data
+    public List<String> getCertificationsList() {
+            return certifications;
+    }
+
+    // Inner classes for complex data
         public static class Education implements Serializable {
             private String degree;
             private String institution;
